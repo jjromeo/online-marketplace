@@ -6,4 +6,5 @@ describe Product do
     expect(product.name).to eq 'Lavender heart'
     expect(product.price).to eq '£9.25'
   end
+
 end
