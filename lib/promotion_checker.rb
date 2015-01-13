@@ -46,9 +46,12 @@ class PromotionChecker
 
     def reprice_lavender_hearts(products)
       lavender_hearts = products.select { |product| product.name == 'Lavender heart' }
-      discounted_hearts = lavender_hearts.map { |heart| heart.price = "£8.50" }
       products.reject! { |product| product.name == 'Lavender heart' }
-      products << discounted_hearts
+      lavender_hearts.each do |heart| 
+        heart.price = "£8.50" 
+        products << heart
+      end
+      products
     end
   end
 end
