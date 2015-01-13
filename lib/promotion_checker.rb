@@ -1,5 +1,7 @@
+require 'byebug'
 class PromotionChecker
   class << self
+    attr_accessor :amount
 
     def rules
       singleton_methods
@@ -14,9 +16,9 @@ class PromotionChecker
       lavender_hearts.count >= 2
     end
 
-    def over_60_pounds_price_rule(amount)
+    def over_60_pounds_price_rule
       if over_60_pounds?(amount)
-        amount * 0.9
+        self.amount = (amount * 0.9)
       else
         amount
       end
@@ -41,6 +43,7 @@ class PromotionChecker
         products
       end
     end
+
 
     private
 

@@ -1,5 +1,5 @@
 describe Checkout do
-    let(:standard_promotion) { double 'promotion', :rules => [:over_60_pounds_price_rule, :two_lavender_hearts_product_rule] }
+    let(:standard_promotion) { double 'promotion', :rules => [:over_60_pounds_price_rule, :two_lavender_hearts_product_rule], product_rules: [:two_lavender_hearts_product_rule], :amount= => nil}
     let(:checkout) { Checkout.new(standard_promotion) }
     let(:lavender) { double('product', code: '001', name: 'Lavender heart', price: '£9.25', class: Product) }
     let(:cufflinks) { double('product', code: '002', name: 'Personalised cufflinks', price: '£45.00', class: Product) }
@@ -34,6 +34,8 @@ describe Checkout do
     some_products.map { |product| checkout.scan(product) }
     expect(standard_promotion).to receive(:two_lavender_hearts_product_rule).with(some_products).and_return(some_products)
     expect(standard_promotion).to receive(:over_60_pounds_price_rule)
+    allow(standard_promotion).to receive(:amount)
+    expect(standard_promotion).to receive(:price_rules).and_return [:over_60_pounds_price_rule]
     checkout.total
   end
 
