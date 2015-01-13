@@ -21,7 +21,9 @@ describe PromotionChecker do
     products = [lavender, lavender, cufflinks]
     expect(products[0]).to receive(:price=).with('£8.50')
     expect(products[1]).to receive(:price=).with('£8.50')
-    expect(PromotionChecker.two_lavender_hearts_product_rule(products)).to eq products
+    PromotionChecker.two_lavender_hearts_product_rule(products).each do |product|
+      expect(product.class).to eq Product
+    end
   end
 
   it 'should be able to classify it\'s rules as a product or price rule' do 
