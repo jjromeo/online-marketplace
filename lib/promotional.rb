@@ -1,3 +1,4 @@
+# Provides the functionality for all classes for adding promotions
 module Promotional
 
 attr_accessor :amount

@@ -1,8 +1,9 @@
+# Must be initialized with a set_of promotions
 class Checkout
   attr_reader :basket, :rules_set
-  def initialize(promotional_rule_checker)
+  def initialize(promotions_set)
     @basket = []
-    @rules_set = promotional_rule_checker
+    @rules_set = promotions_set
   end
 
   def rules
