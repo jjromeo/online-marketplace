@@ -21,5 +21,16 @@ class PromotionChecker
         amount
       end
     end
+
+    def two_lavender_hearts_rule(products)
+      if two_lavender_hearts?(products)
+        lavender_hearts = products.select { |product| product.name == 'Lavender heart' }
+        discounted_hearts = lavender_hearts.map { |heart| heart.price = "£8.50" }
+        products.reject! { |product| product.name == 'Lavender heart' }
+        products << discounted_hearts
+      else
+        products
+      end
+    end
   end
 end

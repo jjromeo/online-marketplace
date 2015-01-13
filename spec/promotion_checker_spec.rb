@@ -18,5 +18,9 @@ describe PromotionChecker do
   end
 
   it 'should be able to lower the price of lavender hearts if there\'s more than 1' do 
+    products = [lavender, lavender, cufflinks]
+    expect(products[0]).to receive(:price=).with('£8.50')
+    expect(products[1]).to receive(:price=).with('£8.50')
+    PromotionChecker.two_lavender_hearts_rule(products)
   end
 end
