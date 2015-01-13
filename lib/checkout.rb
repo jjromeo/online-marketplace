@@ -1,8 +1,8 @@
 class Checkout
   attr_reader :products
-  def initialize(promotional_rules_set)
+  def initialize(promotional_rule_checker)
     @products = []
-    @rules_set = promotional_rules_set
+    @rules_set = promotional_rule_checker
   end
 
   def rules
@@ -13,9 +13,13 @@ class Checkout
     products << product
   end
 
+  def sub_total
+    discounted_products = @rules_set.two_lavender_hearts_product_rule(products)
+    discounted_products.inject(0) { |accu, product| accu + product.price.slice(1..-1).to_f }
+  end
+
   def total
-    float_total = products.inject(0) { |accu, product| accu + product.price.slice(1..-1).to_f }
-    "£#{float_total}"
+    @rules_set.over_60_pounds_price_rule(sub_total)
   end
 
 end
