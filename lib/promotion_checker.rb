@@ -3,7 +3,11 @@ require_relative 'promotional.rb'
 class PromotionChecker
   extend Promotional
   class << self
-    
+    # product rules will change attributes of products in basket
+    # to add a product rule 
+
+    IS_LAVENDER_HEART = Proc.new { |product| product.name == 'Lavender heart' }
+
     def two_lavender_hearts_product_rule(products)
       if two_lavender_hearts?(products)
         reprice_lavender_hearts(products)
@@ -13,7 +17,7 @@ class PromotionChecker
     end
 
     def two_lavender_hearts?(products)
-      lavender_hearts = products.select { |product| product.name == 'Lavender heart' }
+      lavender_hearts = products.select(&IS_LAVENDER_HEART)
       lavender_hearts.count >= 2
     end
 
@@ -32,8 +36,8 @@ class PromotionChecker
     private
 
     def reprice_lavender_hearts(products)
-      lavender_hearts = products.select { |product| product.name == 'Lavender heart' }
-      products.reject! { |product| product.name == 'Lavender heart' }
+      lavender_hearts = products.select(&IS_LAVENDER_HEART)
+      products.reject!(&IS_LAVENDER_HEART) 
       lavender_hearts.each do |heart| 
         heart.price = "£8.50" 
         products << heart

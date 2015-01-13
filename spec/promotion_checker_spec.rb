@@ -8,9 +8,9 @@ describe PromotionChecker do
     expect(PromotionChecker.over_60_pounds?(61.00)).to be true
   end
 
-  it 'should know if an array has more than one lavender heart' do 
-    products = [lavender, lavender, cufflinks]
-    expect(PromotionChecker.two_lavender_hearts?(products)).to be true
+  it 'should know if a basket has more than one lavender heart' do 
+    basket = [lavender, lavender, cufflinks]
+    expect(PromotionChecker.two_lavender_hearts?(basket)).to be true
   end
   
   it 'should be able lower the price by 10% if an amount is higher £60' do 
@@ -19,10 +19,10 @@ describe PromotionChecker do
   end
 
   it 'should be able to lower the price of lavender hearts if there\'s more than 1' do 
-    products = [lavender, lavender, cufflinks]
-    expect(products[0]).to receive(:price=).with('£8.50')
-    expect(products[1]).to receive(:price=).with('£8.50')
-    PromotionChecker.two_lavender_hearts_product_rule(products).each do |product|
+    basket = [lavender, lavender, cufflinks]
+    expect(basket[0]).to receive(:price=).with('£8.50')
+    expect(basket[1]).to receive(:price=).with('£8.50')
+    PromotionChecker.two_lavender_hearts_product_rule(basket).each do |product|
       expect(product.class).to eq Product
     end
   end

@@ -8,10 +8,10 @@ describe Checkout do
     expect(checkout.rules).to eq [:over_60_pounds_price_rule, :two_lavender_hearts_product_rule]
   end
 
-  it 'can scan products and store them in an array' do 
-    expect(checkout.products.count).to eq 0
+  it 'can scan products and store them in a basket' do 
+    expect(checkout.basket.count).to eq 0
     checkout.scan(lavender)
-    expect(checkout.products.count).to eq 1
+    expect(checkout.basket.count).to eq 1
   end
 
   it 'can get the total cost of the products it has' do 

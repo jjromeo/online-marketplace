@@ -1,7 +1,7 @@
 class Checkout
-  attr_reader :products, :rules_set
+  attr_reader :basket, :rules_set
   def initialize(promotional_rule_checker)
-    @products = []
+    @basket = []
     @rules_set = promotional_rule_checker
   end
 
@@ -10,12 +10,12 @@ class Checkout
   end
 
   def scan(product)
-    products << product
+    basket << product
   end
 
   def sub_total
-    discounted_products = apply_product_discounts(products)
-    @rules_set.amount = discounted_products.inject(0) { |accu, product| accu + product.price.slice(1..-1).to_f }
+    discounted_basket = apply_product_discounts(basket)
+    @rules_set.amount = discounted_basket.inject(0) { |accu, product| accu + product.price.slice(1..-1).to_f }
   end
 
   def total
@@ -28,8 +28,8 @@ class Checkout
     @rules_set.amount
   end
 
-  def apply_product_discounts(products)
-    @rules_set.product_rules.each { |rule| @rules_set.send(rule.to_sym, products) }
-    products
+  def apply_product_discounts(basket)
+    @rules_set.product_rules.each { |rule| @rules_set.send(rule.to_sym, basket) }
+    basket
   end
 end
