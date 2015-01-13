@@ -2,6 +2,7 @@ require_relative 'promotional.rb'
 # is an example of a set of promotions.
 class StandardPromotionsChecker
   # Create a rule set by extending Promotional and then adding rules
+  # rule set's rules must be singleton methods
 
   extend Promotional
   class << self
@@ -41,6 +42,7 @@ class StandardPromotionsChecker
     def over_60_pounds?(amount)
       amount > 60.00
     end
+
 
     private
 
