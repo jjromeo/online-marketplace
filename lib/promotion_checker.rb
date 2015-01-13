@@ -1,14 +1,15 @@
-require 'byebug'
+require_relative 'promotional.rb'
+
 class PromotionChecker
+  extend Promotional
   class << self
-    attr_accessor :amount
-
-    def rules
-      singleton_methods
-    end
-
-    def over_60_pounds?(amount)
-      amount > 60.00
+    
+    def two_lavender_hearts_product_rule(products)
+      if two_lavender_hearts?(products)
+        reprice_lavender_hearts(products)
+      else
+        products
+      end
     end
 
     def two_lavender_hearts?(products)
@@ -24,26 +25,9 @@ class PromotionChecker
       end
     end
 
-    def rules
-      singleton_methods.select { |method| method.to_s.split(//).last(4).join == 'rule' }
+    def over_60_pounds?(amount)
+      amount > 60.00
     end
-
-    def price_rules
-      rules.select { |rule| rule.to_s.include?('price') }
-    end
-
-    def product_rules
-      rules.select { |rule| rule.to_s.include?('product') }
-    end
-
-    def two_lavender_hearts_product_rule(products)
-      if two_lavender_hearts?(products)
-        reprice_lavender_hearts(products)
-      else
-        products
-      end
-    end
-
 
     private
 

@@ -20,7 +20,7 @@ class Checkout
 
   def total
     sub_total
-    apply_price_discounts
+    "£#{apply_price_discounts.round(2)}"
   end
 
   def apply_price_discounts

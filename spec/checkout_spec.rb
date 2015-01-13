@@ -34,7 +34,7 @@ describe Checkout do
     some_products.map { |product| checkout.scan(product) }
     expect(standard_promotion).to receive(:two_lavender_hearts_product_rule).with(some_products).and_return(some_products)
     expect(standard_promotion).to receive(:over_60_pounds_price_rule)
-    allow(standard_promotion).to receive(:amount)
+    allow(standard_promotion).to receive(:amount).and_return(90)
     expect(standard_promotion).to receive(:price_rules).and_return [:over_60_pounds_price_rule]
     checkout.total
   end

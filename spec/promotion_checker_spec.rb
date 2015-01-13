@@ -14,7 +14,8 @@ describe PromotionChecker do
   end
   
   it 'should be able lower the price by 10% if an amount is higher £60' do 
-    expect(PromotionChecker.over_60_pounds_price_rule(61.00)).to eq 54.9
+    PromotionChecker.amount = 61.00
+    expect(PromotionChecker.over_60_pounds_price_rule).to eq 54.9
   end
 
   it 'should be able to lower the price of lavender hearts if there\'s more than 1' do 
