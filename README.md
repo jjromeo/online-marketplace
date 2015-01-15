@@ -25,22 +25,20 @@ class HolidayPromotionsChecker
 end
 ```
 
-Rules can now be added to this class, there are two types of rule, product and price rules. 
+Rules can now be added to this class. There are two types of rule, product and price rules. 
 
 ####Product rules
-Product rules will change attributes of products in basket, and are applied before sub_total is calculated.
+Product rules will change attributes of products in basket, and are applied before price rules
 
-To add a product rule, create a method for the rule, and make sure it ends in 'product_rule'. It's vital that the method returns an altered version of the array or the array itself.
+To add a product rule, create a method for the rule, and make sure it ends in 'product_rule'. These rules should edit the items in the basket attribute of the checker.
 
 ```ruby
 class HolidayPromotionsChecker
   extend Promotional
   class << self
-    def some_new_product_rule(array_of_products)
+    def some_new_product_rule
       if condition
-      #code which returns altered array of products
-      else
-          array_of_products
+        #code which alters basket items
       end
     end
   end
@@ -49,9 +47,9 @@ end
 
 ####Price rules
 
-Price rules will simply change the total price, they are applied to the sub_total and are the last step to calculate the total. 
+Price rules will simply change the total price, they are applied after the product rules. 
 
-To add a price rule, create a method which ends in 'price_rule'. Price rules must change the self.amount property, and return it.
+To add a price rule, create a method which ends in 'price_rule'. Price rules must change the self.amount property.
 
 ```ruby
 class HolidayPromotionsChecker
@@ -59,9 +57,7 @@ extend Promotional
   class << self
       def some_new_price_rule
           if condition
-          #code which returns edits self.amount
-          else
-              amount #return amount unchanged if not
+            #code which returns changes self.amount
           end
       end
   end
@@ -78,7 +74,7 @@ holiday_checkout.scan(scarf)
 holiday_checkout.total # will return the cost after discounts
 ```
     
-Products must be created like those in interface.rb eg: 
+Products must be created like those in checkout.rb in the ITEMS constant eg: 
 
 ```ruby    
 gloves = Product.new(code: '001', name: 'Wooley gloves', price: '£10.95')
