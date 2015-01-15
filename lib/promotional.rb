@@ -22,10 +22,11 @@ module Promotional
 
   def apply_product_discounts
     product_rules.each { |rule| self.send(rule.to_sym) }
-    basket
+    calculate_amount
   end
 
   def calculate_amount
     self.amount = basket.inject(0) { |accu, product| accu + product.price.slice(1..-1).to_f }
+    amount
   end
 end

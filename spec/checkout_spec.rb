@@ -20,6 +20,7 @@ describe Checkout do
 
   it 'can get the sub_total cost of the products it has' do
     allow(standard_promotion_checker).to receive(:apply_product_discounts).and_return([])
+    expect(standard_promotion_checker).to receive(:basket=)
     expect(checkout.sub_total).to eq 0
     checkout.scan(lavender)
     allow(standard_promotion_checker).to receive(:apply_product_discounts).with([lavender]).and_return([lavender])

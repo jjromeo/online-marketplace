@@ -16,8 +16,7 @@ class Checkout
 
   def sub_total
     @rules_set.basket = basket
-    @rules_set.apply_product_discounts
-    @rules_set.amount = @rules_set.calculate_amount
+    @rules_set.amount = @rules_set.apply_product_discounts
   end
 
   def total
