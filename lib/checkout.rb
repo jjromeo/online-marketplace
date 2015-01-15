@@ -6,22 +6,17 @@ class Checkout
     @rules_set = promotions_set
   end
 
-  def rules
-    @rules_set.rules
-  end
-
   def scan(product)
     basket << product
   end
 
-  def sub_total
-    @rules_set.basket = basket
-    @rules_set.amount = @rules_set.apply_product_discounts
+  def total
+    submit_basket
+    "#{@rules_set.apply_discounts.round(2)}"
   end
 
-  def total
-    sub_total
-    "£#{@rules_set.apply_price_discounts.round(2)}"
+  def submit_basket
+    @rules_set.basket = basket
   end
 
 end

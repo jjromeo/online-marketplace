@@ -8,37 +8,23 @@ describe Checkout do
   let(:lavender) { double('product', code: '001', name: 'Lavender heart', price: '£9.25', class: Product) }
   let(:cufflinks) { double('product', code: '002', name: 'Personalised cufflinks', price: '£45.00', class: Product) }
 
-  it 'initializes with a set of promotional rules' do
-    expect(checkout.rules).to eq [:over_60_pounds_price_rule, :two_lavender_hearts_product_rule]
-  end
-
   it 'can scan products and store them in a basket' do
     expect(checkout.basket.count).to eq 0
     checkout.scan(lavender)
     expect(checkout.basket.count).to eq 1
   end
 
-  it 'can get the sub_total cost of the products it has' do
-    allow(standard_promotion_checker).to receive(:apply_product_discounts).and_return([])
-    expect(standard_promotion_checker).to receive(:basket=)
-    expect(checkout.sub_total).to eq 0
+  it 'can send its basket to its promotion checker ' do
     checkout.scan(lavender)
-    allow(standard_promotion_checker).to receive(:apply_product_discounts).with([lavender]).and_return([lavender])
-    expect(checkout.sub_total).to eq 9.25
+    expect(standard_promotion_checker).to receive(:basket=).with([lavender])
+    checkout.submit_basket
   end
 
-  it 'can apply product discounts when calculating sub_total' do
-    some_products = [lavender, lavender, cufflinks]
-    some_products.map { |product| checkout.scan(product) }
-    expect(standard_promotion_checker).to receive(:apply_product_discounts).with(some_products).and_return(some_products)
-    checkout.sub_total
-  end
-
-  it 'can apply price discounts when calculating total' do
+  it 'can apply discounts when calculating total' do
     some_products = [cufflinks, cufflinks]
-    some_products.map { |product| checkout.scan(product) }
-    expect(standard_promotion_checker).to receive(:apply_product_discounts).with(some_products).and_return(some_products)
-    expect(standard_promotion_checker).to receive(:apply_price_discounts).and_return(81.00)
+    some_products.each { |product| checkout.scan(product) }
+    expect(standard_promotion_checker).to receive(:basket=).with([cufflinks, cufflinks])
+    expect(standard_promotion_checker).to receive(:apply_discounts).and_return(81.00)
     checkout.total
   end
 
