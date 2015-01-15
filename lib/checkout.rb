@@ -27,7 +27,7 @@ class Checkout
 
   def total
     submit_basket
-    "#{@rules_set.apply_discounts.round(2)}"
+    "#{@rules_set.calculate_total.round(2)}"
   end
 
   def submit_basket

@@ -3,9 +3,11 @@ module Promotional
 
   attr_accessor :amount, :basket
 
-  def apply_discounts
+  def calculate_total
     apply_product_discounts
+    calculate_amount
     apply_price_discounts
+    amount
   end
 
   private
@@ -21,12 +23,10 @@ module Promotional
 
   def apply_price_discounts
     price_rules.each { |rule| self.send("#{rule}") }
-    amount
   end
 
   def apply_product_discounts
     product_rules.each { |rule| self.send(rule.to_sym) }
-    calculate_amount
   end
 
   def price_rules
