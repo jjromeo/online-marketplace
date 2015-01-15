@@ -2,34 +2,26 @@ require './lib/product.rb'
 require './lib/standard_promotions_checker.rb'
 require './lib/checkout.rb'
 
-def get_product_codes(checkout)
-  codes = checkout.basket.inject(""){|accu, product| accu + ",#{product.code}" }
+def get_product_codes(basket)
+  codes = basket.inject(""){|accu, code| accu + ",#{code}" }
   codes[1..-1]
 end
 
-lavender = Product.new(code: '001', name: 'Lavender heart', price: '£9.25')
-cufflinks = Product.new(code: '002', name: 'Personalised cufflinks', price: '£45.00')
-t_shirt = Product.new(code: '003', name: 'Kids T-shirt', price: '£19.95')
-
 co = Checkout.new(StandardPromotionsChecker)
-co.scan(lavender)
-co.scan(cufflinks)
-co.scan(t_shirt)
-product_codes = get_product_codes(co)
+basket = ['001', '002', '003']
+co.scan_codes(basket)
+product_codes = get_product_codes(basket)
 price = co.total
 
 co2 = Checkout.new(StandardPromotionsChecker)
-co2.scan(lavender)
-co2.scan(t_shirt)
-co2.scan(lavender)
-product_codes2 = get_product_codes(co2)
+basket2 = ['001', '003', '001']
+co2.scan_codes(basket2)
+product_codes2 = get_product_codes(basket2)
 
 co3 = Checkout.new(StandardPromotionsChecker)
-co3.scan(lavender)
-co3.scan(cufflinks)
-co3.scan(lavender)
-co3.scan(t_shirt)
-product_codes3 = get_product_codes(co3)
+basket3 = ['001', '002', '001', '003']
+co3.scan_codes(basket3)
+product_codes3 = get_product_codes(basket3)
 
 puts 'Test data'
 puts '================================'
