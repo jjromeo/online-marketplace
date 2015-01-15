@@ -15,22 +15,14 @@ class Checkout
   end
 
   def sub_total
-    discounted_basket = apply_product_discounts(basket)
-    @rules_set.amount = discounted_basket.inject(0) { |accu, product| accu + product.price.slice(1..-1).to_f }
+    @rules_set.basket = basket
+    @rules_set.apply_product_discounts
+    @rules_set.amount = @rules_set.calculate_amount
   end
 
   def total
     sub_total
-    "£#{apply_price_discounts.round(2)}"
+    "£#{@rules_set.apply_price_discounts.round(2)}"
   end
 
-  def apply_price_discounts
-    @rules_set.price_rules.each { |rule| @rules_set.send("#{rule}") }
-    @rules_set.amount
-  end
-
-  def apply_product_discounts(basket)
-    @rules_set.product_rules.each { |rule| @rules_set.send(rule.to_sym, basket) }
-    basket
-  end
 end

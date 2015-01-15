@@ -8,21 +8,21 @@ class StandardPromotionsChecker
   class << self
     IS_LAVENDER_HEART = Proc.new { |product| product.name == 'Lavender heart' }
 
-    # product rules will change attributes of products in basket
+    # product rules will change attributes of basket in basket
     # they are applied before sub_total is calculated
     # to add a product rule create a method which ends in 'product_rule'
-    # product rules MUST return the altered array of products
+    # product rules MUST return the altered array of basket
 
-    def two_lavender_hearts_product_rule(products)
-      if two_lavender_hearts?(products)
-        reprice_lavender_hearts(products)
+    def two_lavender_hearts_product_rule
+      if two_lavender_hearts?
+        reprice_lavender_hearts
       else
-        products
+        basket
       end
     end
 
-    def two_lavender_hearts?(products)
-      lavender_hearts = products.select(&IS_LAVENDER_HEART)
+    def two_lavender_hearts?
+      lavender_hearts = basket.select(&IS_LAVENDER_HEART)
       lavender_hearts.count >= 2
     end
 
@@ -46,14 +46,17 @@ class StandardPromotionsChecker
 
     private
 
-    def reprice_lavender_hearts(products)
-      lavender_hearts = products.select(&IS_LAVENDER_HEART)
-      products.reject!(&IS_LAVENDER_HEART)
-      lavender_hearts.each do |heart|
+    def reprice_lavender_hearts
+      lavender_hearts = basket.select(&IS_LAVENDER_HEART)
+      basket.reject!(&IS_LAVENDER_HEART)
+      replace_hearts(lavender_hearts)
+    end
+    
+    def replace_hearts(hearts)
+      hearts.each do |heart|
         heart.price = "£8.50"
-        products << heart
+        basket << heart
       end
-      products
     end
   end
 end

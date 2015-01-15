@@ -1,3 +1,4 @@
+# A sample of a promotion checker, with its rules being tested
 describe StandardPromotionsChecker do
 
   let(:lavender) { double('product', code: '001', name: 'Lavender heart', price: '£9.25', class: Product) }
@@ -22,6 +23,7 @@ describe StandardPromotionsChecker do
     basket = [lavender, lavender, cufflinks]
     expect(basket[0]).to receive(:price=).with('£8.50')
     expect(basket[1]).to receive(:price=).with('£8.50')
+    expect(basket[2]).not_to receive(:price=)
     StandardPromotionsChecker.two_lavender_hearts_product_rule(basket).each do |product|
       expect(product.class).to eq Product
     end
