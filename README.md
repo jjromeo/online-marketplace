@@ -25,7 +25,7 @@ class HolidayPromotionsChecker
 end
 ```
 
-Rules can now be added to this class, there are two types of rule, product and price rules. 
+Rules can now be added to this class. There are two types of rule, product and price rules. 
 
 ####Product rules
 Product rules will change attributes of products in basket, and are applied before price rules
@@ -38,7 +38,7 @@ class HolidayPromotionsChecker
   class << self
     def some_new_product_rule
       if condition
-      #code which alters basket items
+        #code which alters basket items
       end
     end
   end
@@ -57,7 +57,7 @@ extend Promotional
   class << self
       def some_new_price_rule
           if condition
-            #code which returns edits self.amount
+            #code which returns changes self.amount
           end
       end
   end
@@ -74,7 +74,7 @@ holiday_checkout.scan(scarf)
 holiday_checkout.total # will return the cost after discounts
 ```
     
-Products must be created like those in interface.rb eg: 
+Products must be created like those in checkout.rb in the ITEMS constant eg: 
 
 ```ruby    
 gloves = Product.new(code: '001', name: 'Wooley gloves', price: '£10.95')
