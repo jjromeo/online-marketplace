@@ -20,7 +20,7 @@ describe StandardPromotionsChecker do
     expect(StandardPromotionsChecker.basket[0]).to receive(:price=).with('£8.50')
     expect(StandardPromotionsChecker.basket[1]).to receive(:price=).with('£8.50')
     expect(StandardPromotionsChecker.basket[2]).not_to receive(:price=)
-    StandardPromotionsChecker.apply_discounts
+    StandardPromotionsChecker.calculate_total
   end
 
 end

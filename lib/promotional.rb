@@ -7,7 +7,7 @@ module Promotional
     apply_product_discounts
     calculate_amount
     apply_price_discounts
-    amount
+    amount.round(2)
   end
 
   private
