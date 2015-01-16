@@ -1,5 +1,6 @@
 Online-marketplace
 ===========================
+[![Code Climate](https://codeclimate.com/github/jjromeo/online-marketplace/badges/gpa.svg)](https://codeclimate.com/github/jjromeo/online-marketplace)
 
 
 Technologies used
