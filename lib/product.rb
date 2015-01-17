@@ -1,6 +1,8 @@
 class Product
   attr_accessor :code, :name, :price
 
+  ATTRS = [:code, :name, :price]
+
   def initialize(attributes = {})
     @code = attributes[:code]
     @name = attributes[:name]
@@ -10,20 +12,9 @@ class Product
 
   private
   def validate_attrs
-    validate_price
-    validate_name
-    validate_code
+    ATTRS.each do |attr| 
+      raise "Error: Missing #{attr} attribute" unless instance_variable_get("@#{attr}") 
+    end
   end
 
-  def validate_price
-    raise 'Error: Missing price attribute' unless @price
-  end
-
-  def validate_name
-    raise 'Error: Missing name attribute' unless @name
-  end
-
-  def validate_code
-    raise 'Error: Missing code attribute' unless @code
-  end
 end
