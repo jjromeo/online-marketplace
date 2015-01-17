@@ -75,7 +75,7 @@ holiday_checkout.scan(scarf)
 holiday_checkout.total # will return the cost after discounts
 ```
     
-Products must be created like those in checkout.rb in the ITEMS constant eg: 
+Unless Product::ATTRS array is changed, products must be created like those in checkout.rb in the ITEMS constant eg: 
 
 ```ruby    
 gloves = Product.new(code: '001', name: 'Wooley gloves', price: '£10.95')
