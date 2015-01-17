@@ -7,8 +7,8 @@ describe Product do
   end
 
   it 'will raise an error if it lacks an attribute' do 
-    expect{ Product.new(code: '001', name: 'Lavender heart') }.to raise_error 'Error: Missing an attribute'
-    expect{ Product.new(name: 'Lavender heart', price: '£9.25') }.to raise_error 'Error: Missing an attribute'
-    expect{ Product.new(code: '001', price: '£9.25') }.to raise_error 'Error: Missing an attribute'
+    expect{ Product.new(code: '001', name: 'Lavender heart') }.to raise_error 'Error: Missing price attribute'
+    expect{ Product.new(name: 'Lavender heart', price: '£9.25') }.to raise_error 'Error: Missing code attribute'
+    expect{ Product.new(code: '001', price: '£9.25') }.to raise_error 'Error: Missing name attribute'
   end
 end

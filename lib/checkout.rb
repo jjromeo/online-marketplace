@@ -8,6 +8,7 @@ class Checkout
     t_shirt = Product.new(code: '003', name: 'Kids T-shirt', price: '£19.95')
   ]
 
+  #for adding items by code
   CODES = { '001' => ITEMS[0], '002' => ITEMS[1], '003'=> ITEMS[2] }
 
   def initialize(promotions_set)
@@ -19,6 +20,7 @@ class Checkout
     basket << product
   end
 
+  #method to allow multiple items to be scanned by code
   def scan_codes(codes)
     codes.each do |code|
       scan(CODES[code])
