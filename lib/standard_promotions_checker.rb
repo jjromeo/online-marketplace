@@ -5,6 +5,8 @@ class StandardPromotionsChecker
   # rule set's rules must be singleton methods
   extend Promotional
   class << self
+  #disable new as class should only be used as a singleton
+  undef_method :new
 
     # product rules will change attributes of products in the basket
     # they are applied before sub_total is calculated
