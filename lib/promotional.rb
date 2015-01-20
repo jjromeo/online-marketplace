@@ -12,10 +12,6 @@ module Promotional
 
   private
 
-  def rules
-    singleton_methods.select { |method| method.to_s.split(//).last(4).join == 'rule' }
-  end
-
   def calculate_amount
     self.amount = basket.inject(0) { |accu, product| accu + product.price.slice(1..-1).to_f }
     amount
@@ -29,12 +25,19 @@ module Promotional
     product_rules.each { |rule| self.send(rule.to_sym) }
   end
 
+  #selects rules with price in the name
   def price_rules
     rules.select { |rule| rule.to_s.include?('price') }
   end
 
+  #selects rules with product in the name
   def product_rules
     rules.select { |rule| rule.to_s.include?('product') }
+  end
+
+  # gathers methods ending in 'rule'
+  def rules
+    singleton_methods.select { |method| method.to_s.split(//).last(4).join == 'rule' }
   end
 
 end
