@@ -7,20 +7,35 @@ def get_product_codes(basket)
   codes[1..-1]
 end
 
+ITEMS = [
+  Product.new(code: '001', name: 'Lavender heart', price: '£9.25'),
+  Product.new(code: '002', name: 'Personalised cufflinks', price: '£45.00'),
+  Product.new(code: '003', name: 'Kids T-shirt', price: '£19.95')
+]
+
+#for adding items by code
+CODES = { '001' => ITEMS[0], '002' => ITEMS[1], '003'=> ITEMS[2] }
+
+def scan_codes(codes, checkout)
+  codes.each do |code|
+    checkout.scan(CODES[code])
+  end
+end
+
 co = Checkout.new(StandardPromotionsChecker)
 basket = ['001', '002', '003']
-co.scan_codes(basket)
+scan_codes(basket, co)
 product_codes = get_product_codes(basket)
 price = co.total
 
 co2 = Checkout.new(StandardPromotionsChecker)
 basket2 = ['001', '003', '001']
-co2.scan_codes(basket2)
+scan_codes(basket2, co2)
 product_codes2 = get_product_codes(basket2)
 
 co3 = Checkout.new(StandardPromotionsChecker)
 basket3 = ['001', '002', '001', '003']
-co3.scan_codes(basket3)
+scan_codes(basket3, co3)
 product_codes3 = get_product_codes(basket3)
 
 puts 'Test data'
