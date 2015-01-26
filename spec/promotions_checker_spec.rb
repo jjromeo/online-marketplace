@@ -13,18 +13,6 @@ describe PromotionsChecker do
     end
   end
 
-  it 'can give a list of its rules' do
-    expect(PromotionsChecker.send(:rules)).to eq [:half_price_rule, :one_free_product_rule]
-  end
-
-  it 'can give a list of its price rules' do
-    expect(PromotionsChecker.send(:price_rules)).to eq [:half_price_rule]
-  end
-
-  it 'can give a list of its product rules' do
-    expect(PromotionsChecker.send(:product_rules)).to eq [:one_free_product_rule]
-  end
-
   it 'can apply all of its price rules to an amount' do 
     PromotionsChecker.amount = 50
     PromotionsChecker.send(:apply_price_discounts)

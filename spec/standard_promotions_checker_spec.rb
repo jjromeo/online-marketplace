@@ -16,11 +16,11 @@ describe StandardPromotionsChecker do
   end
 
   it 'should be able to lower the price of lavender hearts if there\'s more than 1' do
-    StandardPromotionsChecker.basket = [lavender, lavender, cufflinks]
-    expect(StandardPromotionsChecker.basket[0]).to receive(:price=).with('£8.50')
-    expect(StandardPromotionsChecker.basket[1]).to receive(:price=).with('£8.50')
-    expect(StandardPromotionsChecker.basket[2]).not_to receive(:price=)
-    StandardPromotionsChecker.calculate_total
+    basket = [lavender, lavender, cufflinks]
+    expect(basket[0]).to receive(:price=).with('£8.50')
+    expect(basket[1]).to receive(:price=).with('£8.50')
+    expect(basket[2]).not_to receive(:price=)
+    StandardPromotionsChecker.calculate_total(basket)
   end
 
 end

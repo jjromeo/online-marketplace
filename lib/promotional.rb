@@ -3,7 +3,8 @@ module Promotional
 
   attr_accessor :amount, :basket
 
-  def calculate_total
+  def calculate_total(basket)
+    self.basket = basket
     apply_product_discounts
     calculate_amount
     apply_price_discounts

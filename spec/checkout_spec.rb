@@ -10,12 +10,6 @@ describe Checkout do
     expect(checkout.basket.count).to eq 1
   end
 
-  it 'can send its basket to its promotion checker ' do
-    checkout.scan(lavender)
-    expect(standard_promotion_checker).to receive(:basket=).with([lavender])
-    checkout.send(:submit_basket)
-  end
-
   it 'can apply discounts when calculating total' do
     some_products = [cufflinks, cufflinks]
     some_products.each { |product| checkout.scan(product) }

@@ -13,7 +13,7 @@ class Checkout
 
   def total
     submit_basket
-    "#{@rules_set.calculate_total}"
+    "#{@rules_set.calculate_total(basket)}"
   end
 
   private
