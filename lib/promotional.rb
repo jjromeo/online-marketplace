@@ -38,7 +38,7 @@ module Promotional
 
   # gathers methods ending in 'rule'
   def rules
-    singleton_methods.select { |method| method.to_s.split(//).last(4).join == 'rule' }
+    methods.select { |method| method.to_s.split(//).last(4).join == 'rule' }
   end
 
 end
