@@ -12,14 +12,8 @@ class Checkout
   end
 
   def total
-    submit_basket
     "#{@rules_set.calculate_total(basket)}"
   end
 
-  private
-
-  def submit_basket
-    @rules_set.basket = basket
-  end
 
 end

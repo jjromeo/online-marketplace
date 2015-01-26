@@ -13,7 +13,6 @@ describe Checkout do
   it 'can apply discounts when calculating total' do
     some_products = [cufflinks, cufflinks]
     some_products.each { |product| checkout.scan(product) }
-    expect(standard_promotion_checker).to receive(:basket=).with([cufflinks, cufflinks])
     expect(standard_promotion_checker).to receive(:calculate_total)
     checkout.total
   end

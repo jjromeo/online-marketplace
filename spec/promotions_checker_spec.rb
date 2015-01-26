@@ -1,7 +1,9 @@
 # Test of a default promotions checker, mixes in promotional but has no other
 # methods
 describe PromotionsChecker do
-  let(:promotions_checker) { PromotionsChecker.new }
+  let(:rule1){ double('rule', type: :product) }
+  let(:rule2){ double('rule', type: :price) }
+  let(:promotions_checker) { PromotionsChecker.new(rule1, rule2) }
   let(:lavender) { double('product', code: '001', name: 'Lavender heart', price: '£9.25', class: Product) }
   let(:cufflinks) { double('product', code: '002', name: 'Personalised cufflinks', price: '£45.00', class: Product) }
 
@@ -14,16 +16,5 @@ describe PromotionsChecker do
     end
   end
 
-  it 'can apply all of its price rules to an amount' do 
-    promotions_checker.amount = 50
-    promotions_checker.send(:apply_price_discounts)
-    expect(promotions_checker.amount).to eq 25
-  end
-
-  it 'can apply its product rules to an array' do 
-    promotions_checker.basket = [lavender, cufflinks]
-    expect(lavender).to receive(:price=).with('£0')
-    promotions_checker.send(:apply_product_discounts)
-  end
 
 end

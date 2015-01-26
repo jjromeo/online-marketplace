@@ -2,6 +2,7 @@
 module Promotional
 
   attr_accessor :amount, :basket
+  attr_reader :rules
 
   def calculate_total(basket)
     self.basket = basket
@@ -23,22 +24,17 @@ module Promotional
   end
 
   def apply_product_discounts
-    product_rules.each { |rule| self.send(rule.to_sym) }
+    product_rules.each { |rule| self.send(rule.apply(basket)) }
   end
 
   #selects rules with price in the name
   def price_rules
-    rules.select { |rule| rule.to_s.include?('price') }
+    rules.select { |rule| rule.type == :price }
   end
 
   #selects rules with product in the name
   def product_rules
-    rules.select { |rule| rule.to_s.include?('product') }
-  end
-
-  # gathers methods ending in 'rule'
-  def rules
-    methods.select { |method| method.to_s.split(//).last(4).join == 'rule' }
+    rules.select { |rule| rule.type == :product }
   end
 
 end
