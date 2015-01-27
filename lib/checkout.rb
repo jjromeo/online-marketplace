@@ -1,10 +1,10 @@
-# Must be initialized with a set_of promotions
+#Takes in products
 class Checkout
-  attr_reader :basket, :rules_set
+  attr_reader :basket, :discounter
 
-  def initialize(promotions_set)
+  def initialize(discounter)
     @basket = []
-    @rules_set = promotions_set
+    @discounter = discounter 
   end
 
   def scan(product)
@@ -12,7 +12,7 @@ class Checkout
   end
 
   def total
-    "#{@rules_set.calculate_total(basket)}"
+    "£#{discounter.calculate_total(basket)}"
   end
 
 

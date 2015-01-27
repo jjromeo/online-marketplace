@@ -1,11 +1,15 @@
-# Provides the functionality for all classes for adding promotions
-module Promotional
-
+require 'byebug'
+#applies discounts to basket
+class Discounter
   attr_accessor :amount, :basket
   attr_reader :rules
 
-  def calculate_total(basket)
-    self.basket = basket
+  def initialize(*rules)
+    @rules = rules
+  end
+
+  def calculate_total(new_basket)
+    @basket = new_basket
     apply_product_discounts
     calculate_amount
     apply_price_discounts
@@ -20,21 +24,20 @@ module Promotional
   end
 
   def apply_price_discounts
-    price_rules.each { |rule| self.send("#{rule}") }
+    price_rules.each { |rule| self.amount = rule.apply(amount) }
   end
 
   def apply_product_discounts
-    product_rules.each { |rule| self.send(rule.apply(basket)) }
+    product_rules.each { |rule| self.basket = rule.apply(basket) }
   end
 
-  #selects rules with price in the name
   def price_rules
     rules.select { |rule| rule.type == :price }
   end
 
-  #selects rules with product in the name
   def product_rules
     rules.select { |rule| rule.type == :product }
   end
+
 
 end

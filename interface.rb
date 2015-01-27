@@ -1,6 +1,4 @@
-require './lib/product.rb'
-require './lib/standard_promotions_checker.rb'
-require './lib/checkout.rb'
+Dir["./lib/*.rb"].each {|file| require file }
 
 def get_product_codes(basket)
   codes = basket.inject(""){|accu, code| accu + ",#{code}" }
@@ -22,18 +20,21 @@ def scan_codes(codes, checkout)
   end
 end
 
-co = Checkout.new(StandardPromotionsChecker.new)
+ten_percent_off = TenPercentOffPromotion.new
+two_hearts_discount = TwoHeartsPromotion.new
+discounter = Discounter.new(ten_percent_off, two_hearts_discount)
+
+co = Checkout.new(discounter)
 basket = ['001', '002', '003']
 scan_codes(basket, co)
 product_codes = get_product_codes(basket)
-price = co.total
 
-co2 = Checkout.new(StandardPromotionsChecker.new)
+co2 = Checkout.new(discounter)
 basket2 = ['001', '003', '001']
 scan_codes(basket2, co2)
 product_codes2 = get_product_codes(basket2)
 
-co3 = Checkout.new(StandardPromotionsChecker.new)
+co3 = Checkout.new(discounter)
 basket3 = ['001', '002', '001', '003']
 scan_codes(basket3, co3)
 product_codes3 = get_product_codes(basket3)

@@ -1,20 +1,21 @@
-class TwoHeartsRule < Rule
-  TYPE = :product
+require_relative 'promotion.rb'
+#example product rule
+class TwoHeartsPromotion < Promotion
 
-  def intialize
-    @type = TYPE
+  def initialize
+    set_type_to_product
   end
 
-
   def apply(basket)
-    if two_lavender_hearts?
-      reprice_lavender_hearts
+    if two_lavender_hearts?(basket)
+      return reprice_lavender_hearts(basket)
     end
+    basket
   end
 
   private
 
-  def two_lavender_hearts?
+  def two_lavender_hearts?(basket)
     lavender_hearts = basket.select { |product| product.name == 'Lavender heart' }
     lavender_hearts.count >= 2
   end

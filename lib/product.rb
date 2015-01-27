@@ -1,3 +1,4 @@
+#Contains information for each product
 class Product
 
   #ATTRS constant will control which attrs a product must be initialized with
