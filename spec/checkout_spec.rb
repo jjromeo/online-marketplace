@@ -1,6 +1,6 @@
 describe Checkout do
-  let(:standard_promotion_checker) { double 'promotion' }
-  let(:checkout) { Checkout.new(standard_promotion_checker) }
+  let(:discounter) { double 'discounter' }
+  let(:checkout) { Checkout.new(discounter) }
   let(:lavender) { double 'product' }
   let(:cufflinks) { double 'product' }
 
@@ -10,11 +10,10 @@ describe Checkout do
     expect(checkout.basket.count).to eq 1
   end
 
-  it 'can apply discounts when calculating total' do
+  it 'can use its discounter to calculate total' do
     some_products = [cufflinks, cufflinks]
     some_products.each { |product| checkout.scan(product) }
-    expect(standard_promotion_checker).to receive(:basket=).with([cufflinks, cufflinks])
-    expect(standard_promotion_checker).to receive(:calculate_total)
+    expect(discounter).to receive(:calculate_total).with(some_products)
     checkout.total
   end
 
