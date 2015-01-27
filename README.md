@@ -15,64 +15,76 @@ How to use
 
 Customizing
 ------------
-The StandardPromotionsChecker contains basic rules for discounts available, however these can be changed or otherwise replaced entirely.
+The Promotion class can be customized to create new rules to be applied to the products.
 
-To do this create a class and extend the Promotional module in it:
+There are two types of promotion, product and price promotions. 
 
-```ruby
-require_relative 'promotional.rb'
-class HolidayPromotionsChecker
-  extend Promotional
-end
-```
-
-Rules can now be added to this class. There are two types of rule, product and price rules. 
-
-####Product rules
+####Product promotions
 Product rules will change attributes of products in basket, and are applied before price rules
 
-To add a product rule, create a method for the rule, and make sure it ends in 'product_rule'. These rules should edit the items in the basket attribute of the checker.
+To add a product promotion, create a new prmotion class, have it inherit from Promotion, call #set_type_to_product during initialize, and set the #apply method to take in a basket array argument, change it,  and return it(method must return the basket even if it doesn't change it).. These rules should edit the items in the basket array of the checker.
 
 ```ruby
-class HolidayPromotionsChecker
-  extend Promotional
-  class << self
-    def some_new_product_rule
-      if condition
-        #code which alters basket items
-      end
+class TwoHeartsPromotion < Promotion
+
+  def initialize
+    set_type_to_product
+  end
+
+  def apply(basket)
+    if two_lavender_hearts?(basket)
+      return reprice_lavender_hearts(basket)
     end
+    basket
+  end
+
+  private
+
+  def two_lavender_hearts?(basket)
+    lavender_hearts = basket.select { |product| product.name == 'Lavender heart' }
+    lavender_hearts.count >= 2
+  end
+
+  def reprice_lavender_hearts(basket)
+    basket.each { |product| product.price = "£8.50" if product.name == "Lavender heart" }
   end
 end
+
 ```
 
-####Price rules
+####Price promotions
 
 Price rules will simply change the total price, they are applied after the product rules. 
 
-To add a price rule, create a method which ends in 'price_rule'. Price rules must change the self.amount property.
+To add a price promotion, create a new promotion class, have it inherit from Promotion, call #set_type_to_price during initialize, and set the #apply method to take in an amount property argument, change it,  and return it(method must return amount even if it doesn't change it).
 
 ```ruby
-class HolidayPromotionsChecker
-extend Promotional
-  class << self
-      def some_new_price_rule
-          if condition
-            #code which returns changes self.amount
-          end
-      end
+class TenPercentOffPromotion < Promotion
+
+  def initialize
+    set_type_to_price
+  end
+
+  def apply(amount)
+    if amount > 60.00
+      return amount = (amount * 0.9)
+    end
+    amount
   end
 end
 ```
 
-Once custom rules are set, a checkout can be initialized using your rule set, and rules will be automatically applied to the basket when total is called.
+A discounter can be initialized with as many rules as required, a checkout can be initialized using your discounter, and rules will be automatically applied to the basket when total is called.
 
 ```ruby
-holiday_checkout = Checkout.new(HolidayPromotionsChecker)
-holiday_checkout.scan(gloves)
-holiday_checkout.scan(wooley_hat)
-holiday_checkout.scan(scarf)
-holiday_checkout.total # will return the cost after discounts
+ten_percent_off = TenPercentOffPromotion.new
+two_hearts_discount = TwoHeartsPromotion.new
+discounter = Discounter.new(ten_percent_off, two_hearts_discount)
+checkout = Checkout.new(discounter)
+checkout.scan(gloves)
+checkout.scan(wooley_hat)
+checkout.scan(scarf)
+checkout.total # will return the cost after discounts
 ```
     
 Unless Product::ATTRS array is changed, products must be created like those in checkout.rb in the ITEMS constant eg: 
@@ -116,14 +128,11 @@ My approach
 -------------
 My approach was to make this project using TDD, as this helped me greatly to design how my classes would look. During my tests I made sure to keep the classes completely separate, using doubles to ensure each test only included the class it was testing. This helped me to locate errors more quickly when debugging.
 
-As flexibility to change the promotions was a requirement, I decided to create a module with all of the basic functionality required for a set of promotions, which could be extended into a custom promotions checker class. This had the benefit of keeping new promotional rules separate from the logic required to apply them.
+As flexibility to change the promotions was a requirement, I have made use of the template design pattern, having promotions inherit from the super-class of Promotion, rules can be added and removed as required.
 
-Following on with keeping the promotions flexible, I added some (heavily commented) meta-programming, including a tiny DSL, so that in future, new rules only need to be added in one place in order to be applied to the prices and products.
-
-I also added some perhaps unnecessary flexibility to the Product class, its properties are contained in a Constant at the top of the class. This did however allow me to dry up the code for initializing and validating it.
-
-Given that the checkout would initialize with a single set of rules which it could not make meaningful changes to, I decided to make each rule set a Singleton class. This had the effect of making the code look ever so slightly more complicated and I have since read that Singletons are quite rarely used in ruby and would do some further research before using this again - despite the fact it didn't cause any problems.
+I have removed the meta-programming based approach I originally had to creating rules, in favour of making each rule an object, which better follows the Open-Closed principle, and letting the Discounter simply apply the discounts based on which promotions it has, following the Single Responsibility principle.
 
 In interface.rb I created a small example of how the classes could be used, using the test data. It returns the expected result.
 
 Overall I feel that the project went well as it does all that is asked. If there was one thing that I would have liked to improve it would be too streamline the two types of promotion (price and product) into one type that could all be applied in one go.
+
