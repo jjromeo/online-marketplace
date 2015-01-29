@@ -1,16 +1,12 @@
 require_relative 'promotion.rb'
-#Example product rule
+# Example product rule
 class TwoHeartsPromotion < Promotion
-
   def initialize
     set_type_to_product
   end
 
   def apply(basket)
-    if two_lavender_hearts?(basket)
-      return reprice_lavender_hearts(basket)
-    end
-    basket
+    two_lavender_hearts?(basket) ? reprice_lavender_hearts(basket) : basket
   end
 
   private
@@ -21,6 +17,6 @@ class TwoHeartsPromotion < Promotion
   end
 
   def reprice_lavender_hearts(basket)
-    basket.each { |product| product.price = "£8.50" if product.name == "Lavender heart" }
+    basket.each { |product| product.price = '£8.50' if product.name == 'Lavender heart' }
   end
 end

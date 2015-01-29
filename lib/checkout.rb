@@ -1,10 +1,10 @@
-#Takes in products
+# Takes in products and totals them
 class Checkout
   attr_reader :basket, :discounter
 
   def initialize(discounter)
     @basket = []
-    @discounter = discounter 
+    @discounter = discounter
   end
 
   def scan(product)
@@ -14,6 +14,4 @@ class Checkout
   def total
     "£#{discounter.calculate_total(basket)}"
   end
-
-
 end

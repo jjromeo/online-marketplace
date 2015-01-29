@@ -1,10 +1,10 @@
-#applies discounts to basket
+# applies discounts to basket
 class Discounter
   attr_accessor :amount, :basket
-  attr_reader :rules
+  attr_reader :promotions
 
-  def initialize(*rules)
-    @rules = rules
+  def initialize(*promotions)
+    @promotions = promotions
   end
 
   def calculate_total(new_basket)
@@ -23,20 +23,18 @@ class Discounter
   end
 
   def apply_price_discounts
-    price_rules.each { |rule| self.amount = rule.apply(amount) }
+    price_promotions.each { |rule| self.amount = rule.apply(amount) }
   end
 
   def apply_product_discounts
-    product_rules.each { |rule| self.basket = rule.apply(basket) }
+    product_promotions.each { |rule| self.basket = rule.apply(basket) }
   end
 
-  def price_rules
-    rules.select { |rule| rule.type == :price }
+  def price_promotions
+    promotions.select { |rule| rule.type == :price }
   end
 
-  def product_rules
-    rules.select { |rule| rule.type == :product }
+  def product_promotions
+    promotions.select { |rule| rule.type == :product }
   end
-
-
 end

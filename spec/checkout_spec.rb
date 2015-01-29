@@ -15,5 +15,4 @@ describe Checkout do
     expect(discounter).to receive(:calculate_total).with(some_products)
     checkout.total
   end
-
 end
