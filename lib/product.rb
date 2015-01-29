@@ -1,7 +1,6 @@
 #Contains information for each product
 class Product
 
-  #ATTRS constant will control which attrs a product must be initialized with
   ATTRS = [:code, :name, :price]
 
   def initialize(attributes = {})
@@ -11,8 +10,6 @@ class Product
 
   private
 
-  #Sets instance variable for each attribute to its value in attributes hash 
-  #Creates an attr_accessor for that attribute
   def set_attrs(attributes)
     ATTRS.each do |attr| 
       instance_variable_set("@#{attr}", attributes[attr])
@@ -20,7 +17,6 @@ class Product
     end
   end
 
-  #Checks all attributes are accounted for
   def validate_attrs
     ATTRS.each do |attr| 
       raise "Error: Missing #{attr} attribute" unless instance_variable_get("@#{attr}") 

@@ -1,5 +1,5 @@
 require_relative 'promotion.rb'
-#example product rule
+#Example product rule
 class TwoHeartsPromotion < Promotion
 
   def initialize

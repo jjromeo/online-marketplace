@@ -2,12 +2,12 @@
 # methods
 describe Discounter do
 
-  let(:basket) { [lavender, cufflinks] }
-  let(:amount) { basket.inject(0) { |accu, product| accu + product.price.slice(1..-1).to_f } }
   let(:rule1){ double('rule', type: :product) }
   let(:rule2){ double('rule', type: :price) }
   let(:lavender) { double('product', code: '001', name: 'Lavender heart', price: '£9.25', class: Product) }
   let(:cufflinks) { double('product', code: '002', name: 'Personalised cufflinks', price: '£45.00', class: Product) }
+  let(:basket) { [lavender, cufflinks] }
+  let(:amount) { basket.inject(0) { |accu, product| accu + product.price.slice(1..-1).to_f } }
 
   it 'initializes with rules' do 
     discounter = Discounter.new(rule1, rule2)

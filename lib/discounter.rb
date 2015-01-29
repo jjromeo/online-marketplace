@@ -1,4 +1,3 @@
-require 'byebug'
 #applies discounts to basket
 class Discounter
   attr_accessor :amount, :basket
