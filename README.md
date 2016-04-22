@@ -143,11 +143,11 @@ My approach
 -------------
 My approach was to make this project using TDD, as this helped me greatly to design how my classes would look. During my tests I made sure to keep the classes completely separate, using doubles to ensure each test only included the class it was testing. This helped me to locate errors more quickly when debugging.
 
-This TDD and OOP approach which I used a year ago helped me greatly in refactoring and improving the project, as due to the tests and classes being self-contaned and not having too many dependencies, I was able to edit the bits I wanted to without breaking it as I went along
+This TDD and OOP approach which I used a year ago helped me greatly in refactoring and improving the project, as due to the tests and classes being self-contaned and not having too many dependencies, I was able to edit the bits I wanted to without breaking it as I went along.
 
 As flexibility to change the promotions was a requirement, I have made use of the template design pattern, having promotions inherit from the super-class of Promotion, rules can be added and removed as required.
 
 Overall I feel that the project went well as it does all that is asked. 
 
-Coming back to the project after over a year, I have improved the specs, made the default discounts easier to change, and added an acceptance test to test thewhole procedure
+Coming back to the project after over a year, I have improved the specs, made the default discounts easier to change, and added an acceptance test to test the whole procedure.
 
