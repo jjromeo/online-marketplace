@@ -15,6 +15,14 @@ class Discounter
     amount.round(2)
   end
 
+  def add_promotion(promotion)
+    promotions << promotion
+  end
+
+  def delete_promotions
+    promotions.delete_if {|promotion| true }
+  end
+
   private
 
   def calculate_amount
